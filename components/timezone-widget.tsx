@@ -555,6 +555,15 @@ export function TimezoneWidget({
     return translations[language]?.[country] || country
   }
 
+  // Convert country code to flag emoji
+  const getCountryFlag = (code: string) => {
+    const codePoints = code
+      .toUpperCase()
+      .split("")
+      .map((char) => 127397 + char.charCodeAt(0))
+    return String.fromCodePoint(...codePoints)
+  }
+
   // Smooth angle calculations for analog clock
   const secondAngle = (seconds + milliseconds / 1000) * 6
   const minuteAngle = (minutes + seconds / 60) * 6
@@ -580,14 +589,16 @@ export function TimezoneWidget({
               <PopoverTrigger asChild>
                 <Button
                   variant="ghost"
-                  className="h-auto p-0 hover:bg-transparent text-left flex flex-col items-start gap-0.5 group"
+                  className="h-auto p-0 hover:bg-transparent text-left flex flex-col items-start gap-1 group"
                 >
-                  <span className="text-lg font-semibold text-foreground flex items-center gap-1.5">
-                    <span className="text-sm font-medium text-muted-foreground">{selectedTimezone.code}</span>
+                  <span className="text-xl font-semibold text-foreground flex items-center gap-2">
                     {getTranslatedCity(selectedTimezone.city)}
                     <ChevronDown className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                   </span>
-                  <span className="text-sm text-muted-foreground">{getTranslatedCountry(selectedTimezone.country)}</span>
+                  <span className="text-sm text-muted-foreground flex items-center gap-1.5">
+                    <span className="text-lg">{getCountryFlag(selectedTimezone.code)}</span>
+                    {getTranslatedCountry(selectedTimezone.country)}
+                  </span>
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-[280px] p-0" align="start">
