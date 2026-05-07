@@ -236,10 +236,9 @@ export function TimezoneWidget({
   // Format date
   const formatDate = () => {
     const options: Intl.DateTimeFormatOptions = {
-      weekday: "short",
+      weekday: "long",
       day: "numeric",
       month: "long",
-      year: "numeric",
       timeZone: timezone,
     }
     return time.toLocaleDateString(language, options)
