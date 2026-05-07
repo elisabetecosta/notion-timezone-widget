@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/command"
 
 import { cn } from "@/lib/utils"
-import { Clock, Globe, Languages, Moon, Sun, ChevronDown, Check, Sunset } from "lucide-react"
+import { Clock, Globe, Languages, Moon, Sun, ChevronDown, Check } from "lucide-react"
 
 // Translations
 const translations: Record<string, Record<string, string>> = {
@@ -224,10 +224,8 @@ export function TimezoneWidget({
 
   // Get time of day icon
   const getTimeOfDayIcon = () => {
-    if (hours >= 5 && hours < 12) return <Sun className="h-3 w-3" /> // Morning
-    if (hours >= 12 && hours < 17) return <Sun className="h-3 w-3" /> // Afternoon
-    if (hours >= 17 && hours < 21) return <Sunset className="h-3 w-3" /> // Evening
-    return <Moon className="h-3 w-3" /> // Night
+    if (hours >= 5 && hours < 17) return <Sun className="h-3 w-3" /> // Morning and Afternoon
+    return <Moon className="h-3 w-3" /> // Evening and Night
   }
 
   // Format time
@@ -319,55 +317,46 @@ export function TimezoneWidget({
               </PopoverContent>
             </Popover>
 
-            <div className="flex flex-col items-end gap-2">
-              {/* Language & Theme Selectors */}
-              <div className="flex items-center gap-1">
-                {/* Language Selector */}
-                <Popover open={languageOpen} onOpenChange={setLanguageOpen}>
-                  <PopoverTrigger asChild>
-                    <Button variant="ghost" size="sm" className="h-8 px-2">
-                      <Languages className="h-4 w-4" />
+            <div className="flex items-center gap-2">
+              {/* Language Selector */}
+              <Popover open={languageOpen} onOpenChange={setLanguageOpen}>
+                <PopoverTrigger asChild>
+                  <Button variant="ghost" size="sm" className="h-8 px-2">
+                    <Languages className="h-4 w-4" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-40 p-1" align="end">
+                  {languages.map((lang) => (
+                    <Button
+                      key={lang.value}
+                      variant={language === lang.value ? "secondary" : "ghost"}
+                      size="sm"
+                      className="w-full justify-start"
+                      onClick={() => {
+                        setLanguage(lang.value)
+                        setLanguageOpen(false)
+                      }}
+                    >
+                      {lang.label}
                     </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-40 p-1" align="end">
-                    {languages.map((lang) => (
-                      <Button
-                        key={lang.value}
-                        variant={language === lang.value ? "secondary" : "ghost"}
-                        size="sm"
-                        className="w-full justify-start"
-                        onClick={() => {
-                          setLanguage(lang.value)
-                          setLanguageOpen(false)
-                        }}
-                      >
-                        {lang.label}
-                      </Button>
-                    ))}
-                  </PopoverContent>
-                </Popover>
+                  ))}
+                </PopoverContent>
+              </Popover>
 
-                {/* Theme Toggle */}
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 px-2"
-                  onClick={() => setIsDark(!isDark)}
-                >
-                  {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-                </Button>
-              </div>
-
-              {/* Time of Day Badge */}
-              <Badge variant="secondary" className="flex items-center gap-1.5 font-medium">
-                {getTimeOfDayIcon()}
-                {getTimeOfDay()}
-              </Badge>
+              {/* Theme Toggle */}
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 px-2"
+                onClick={() => setIsDark(!isDark)}
+              >
+                {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </Button>
             </div>
           </div>
 
           {/* Analog Clock */}
-          <div className="flex justify-center mb-8">
+          <div className="flex justify-center mb-6">
             <div className="relative w-40 h-40">
               <svg viewBox="0 0 100 100" className="w-full h-full">
                 {/* Clock face */}
@@ -456,6 +445,14 @@ export function TimezoneWidget({
                 <circle cx="50" cy="50" r="3" fill="currentColor" className="text-foreground" />
               </svg>
             </div>
+          </div>
+
+          {/* Time of Day Badge */}
+          <div className="flex justify-center mb-6">
+            <Badge variant="secondary" className="flex items-center gap-1.5 font-medium">
+              {getTimeOfDayIcon()}
+              {getTimeOfDay()}
+            </Badge>
           </div>
 
           {/* Digital Time */}
