@@ -254,20 +254,20 @@ export function TimezoneWidget({
 
   if (!mounted) {
     return (
-      <Card className="w-full max-w-[320px] bg-card border-border/50 shadow-lg">
-        <CardContent className="p-6">
-          <div className="h-[280px] animate-pulse bg-muted rounded-lg" />
+      <Card className="w-full max-w-2xl bg-card border-border/50 shadow-sm rounded-2xl">
+        <CardContent className="p-8">
+          <div className="h-[320px] animate-pulse bg-muted rounded-lg" />
         </CardContent>
       </Card>
     )
   }
 
   return (
-    <div className={cn(isDark && "dark")}>
-      <Card className="w-full max-w-[320px] bg-card border-border/50 shadow-lg transition-colors duration-300">
-        <CardContent className="p-6">
+    <div className={cn("w-full max-w-2xl", isDark && "dark")}>
+      <Card className="w-full bg-card border-border/50 shadow-sm rounded-2xl transition-colors duration-300">
+        <CardContent className="p-8">
           {/* Header */}
-          <div className="flex items-start justify-between mb-6">
+          <div className="flex items-start justify-between mb-8">
             <Popover open={timezoneOpen} onOpenChange={setTimezoneOpen}>
               <PopoverTrigger asChild>
                 <Button
@@ -321,8 +321,8 @@ export function TimezoneWidget({
           </div>
 
           {/* Analog Clock */}
-          <div className="flex justify-center mb-6">
-            <div className="relative w-32 h-32">
+          <div className="flex justify-center mb-8">
+            <div className="relative w-40 h-40">
               <svg viewBox="0 0 100 100" className="w-full h-full">
                 {/* Clock face */}
                 <circle
@@ -413,11 +413,11 @@ export function TimezoneWidget({
           </div>
 
           {/* Digital Time */}
-          <div className="text-center mb-4">
-            <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 tracking-tight tabular-nums">
+          <div className="text-center mb-6">
+            <div className="text-5xl font-bold text-blue-600 dark:text-blue-400 tracking-tight tabular-nums">
               {formatTime()}
             </div>
-            <div className="text-sm text-muted-foreground mt-1">
+            <div className="text-base text-muted-foreground mt-2">
               {formatDate()}
             </div>
           </div>
