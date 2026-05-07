@@ -17,8 +17,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command"
-import { Switch } from "@/components/ui/switch"
-import { Label } from "@/components/ui/label"
+
 import { cn } from "@/lib/utils"
 import { Clock, Globe, Languages, Moon, Sun, ChevronDown, Check } from "lucide-react"
 
@@ -155,7 +154,6 @@ export function TimezoneWidget({
   const [is24h, setIs24h] = useState(default24h ?? true)
   const [timezoneOpen, setTimezoneOpen] = useState(false)
   const [languageOpen, setLanguageOpen] = useState(false)
-  const [settingsOpen, setSettingsOpen] = useState(false)
 
   const t = useCallback((key: string) => translations[language]?.[key] || translations.en[key], [language])
 
@@ -424,6 +422,26 @@ export function TimezoneWidget({
 
           {/* Settings */}
           <div className="flex justify-center gap-2">
+            {/* 12h/24h Toggle */}
+            <div className="flex items-center gap-1 bg-muted rounded-lg p-1">
+              <Button
+                variant={!is24h ? "secondary" : "ghost"}
+                size="sm"
+                className="h-7 px-3 text-xs font-medium"
+                onClick={() => setIs24h(false)}
+              >
+                12h
+              </Button>
+              <Button
+                variant={is24h ? "secondary" : "ghost"}
+                size="sm"
+                className="h-7 px-3 text-xs font-medium"
+                onClick={() => setIs24h(true)}
+              >
+                24h
+              </Button>
+            </div>
+
             {/* Language Selector */}
             <Popover open={languageOpen} onOpenChange={setLanguageOpen}>
               <PopoverTrigger asChild>
@@ -446,32 +464,6 @@ export function TimezoneWidget({
                     {lang.label}
                   </Button>
                 ))}
-              </PopoverContent>
-            </Popover>
-
-            {/* Settings Popover */}
-            <Popover open={settingsOpen} onOpenChange={setSettingsOpen}>
-              <PopoverTrigger asChild>
-                <Button variant="ghost" size="sm" className="h-8 px-2">
-                  <Globe className="h-4 w-4" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-48 p-3" align="center">
-                <div className="space-y-4">
-                  {/* 12h/24h Toggle */}
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="format" className="text-sm">{t("format")}</Label>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-muted-foreground">12h</span>
-                      <Switch
-                        id="format"
-                        checked={is24h}
-                        onCheckedChange={setIs24h}
-                      />
-                      <span className="text-xs text-muted-foreground">24h</span>
-                    </div>
-                  </div>
-                </div>
               </PopoverContent>
             </Popover>
 
