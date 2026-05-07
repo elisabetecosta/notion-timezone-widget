@@ -311,10 +311,47 @@ export function TimezoneWidget({
               </PopoverContent>
             </Popover>
 
-            <Badge variant="secondary" className="flex items-center gap-1.5 font-medium">
-              <Clock className="h-3 w-3" />
-              {getTimeOfDay()}
-            </Badge>
+            <div className="flex items-center gap-2">
+              {/* Language Selector */}
+              <Popover open={languageOpen} onOpenChange={setLanguageOpen}>
+                <PopoverTrigger asChild>
+                  <Button variant="ghost" size="sm" className="h-8 px-2">
+                    <Languages className="h-4 w-4" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-40 p-1" align="end">
+                  {languages.map((lang) => (
+                    <Button
+                      key={lang.value}
+                      variant={language === lang.value ? "secondary" : "ghost"}
+                      size="sm"
+                      className="w-full justify-start"
+                      onClick={() => {
+                        setLanguage(lang.value)
+                        setLanguageOpen(false)
+                      }}
+                    >
+                      {lang.label}
+                    </Button>
+                  ))}
+                </PopoverContent>
+              </Popover>
+
+              {/* Theme Toggle */}
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 px-2"
+                onClick={() => setIsDark(!isDark)}
+              >
+                {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </Button>
+
+              <Badge variant="secondary" className="flex items-center gap-1.5 font-medium">
+                <Clock className="h-3 w-3" />
+                {getTimeOfDay()}
+              </Badge>
+            </div>
           </div>
 
           {/* Analog Clock */}
@@ -419,9 +456,8 @@ export function TimezoneWidget({
             </div>
           </div>
 
-          {/* Settings */}
-          <div className="flex justify-center gap-2">
-            {/* 12h/24h Toggle */}
+          {/* Time Format Toggle */}
+          <div className="flex justify-center">
             <div className="flex items-center gap-1 bg-muted rounded-lg p-1">
               <Button
                 variant={!is24h ? "secondary" : "ghost"}
@@ -440,41 +476,6 @@ export function TimezoneWidget({
                 24h
               </Button>
             </div>
-
-            {/* Language Selector */}
-            <Popover open={languageOpen} onOpenChange={setLanguageOpen}>
-              <PopoverTrigger asChild>
-                <Button variant="ghost" size="sm" className="h-8 px-2">
-                  <Languages className="h-4 w-4" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-40 p-1" align="center">
-                {languages.map((lang) => (
-                  <Button
-                    key={lang.value}
-                    variant={language === lang.value ? "secondary" : "ghost"}
-                    size="sm"
-                    className="w-full justify-start"
-                    onClick={() => {
-                      setLanguage(lang.value)
-                      setLanguageOpen(false)
-                    }}
-                  >
-                    {lang.label}
-                  </Button>
-                ))}
-              </PopoverContent>
-            </Popover>
-
-            {/* Theme Toggle */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-8 px-2"
-              onClick={() => setIsDark(!isDark)}
-            >
-              {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </Button>
           </div>
         </CardContent>
       </Card>
