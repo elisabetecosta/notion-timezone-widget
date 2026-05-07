@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/command"
 
 import { cn } from "@/lib/utils"
-import { Clock, Globe, Languages, Moon, Sun, ChevronDown, Check } from "lucide-react"
+import { Clock, Globe, Languages, Moon, Sun, ChevronDown, Check, Sunset } from "lucide-react"
 
 // Translations
 const translations: Record<string, Record<string, string>> = {
@@ -222,6 +222,14 @@ export function TimezoneWidget({
     return t("night")
   }
 
+  // Get time of day icon
+  const getTimeOfDayIcon = () => {
+    if (hours >= 5 && hours < 12) return <Sun className="h-3 w-3" /> // Morning
+    if (hours >= 12 && hours < 17) return <Sun className="h-3 w-3" /> // Afternoon
+    if (hours >= 17 && hours < 21) return <Sunset className="h-3 w-3" /> // Evening
+    return <Moon className="h-3 w-3" /> // Night
+  }
+
   // Format time
   const formatTime = () => {
     const options: Intl.DateTimeFormatOptions = {
@@ -352,7 +360,7 @@ export function TimezoneWidget({
 
               {/* Time of Day Badge */}
               <Badge variant="secondary" className="flex items-center gap-1.5 font-medium">
-                <Clock className="h-3 w-3" />
+                {getTimeOfDayIcon()}
                 {getTimeOfDay()}
               </Badge>
             </div>
