@@ -591,11 +591,11 @@ export function TimezoneWidget({
                   variant="ghost"
                   className="h-auto p-0 hover:bg-transparent text-left flex flex-col items-start gap-1 group"
                 >
-                  <span className="text-xl font-semibold text-foreground flex items-center gap-2">
+                  <span className="text-2xl font-semibold text-foreground flex items-center gap-2">
                     {getTranslatedCity(selectedTimezone.city)}
                     <ChevronDown className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                   </span>
-                  <span className="text-sm text-muted-foreground flex items-center gap-1.5">
+                  <span className="text-sm text-muted-foreground flex items-center justify-center gap-1.5">
                     <span className="text-lg">{getCountryFlag(selectedTimezone.code)}</span>
                     {getTranslatedCountry(selectedTimezone.country)}
                   </span>
