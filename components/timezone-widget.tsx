@@ -555,14 +555,9 @@ export function TimezoneWidget({
     return translations[language]?.[country] || country
   }
 
-  // Convert country code to flag emoji
-  const getCountryFlag = (code: string) => {
-    const codePoints = code
-      .toUpperCase()
-      .split("")
-      .map((char) => 127397 + char.charCodeAt(0))
-    return String.fromCodePoint(...codePoints)
-  }
+  // Build a flag image URL from flagcdn.com using the ISO country code
+  const getFlagUrl = (code: string, width = 40) =>
+    `https://flagcdn.com/w${width}/${code.toLowerCase()}.png`
 
   // Smooth angle calculations for analog clock
   const secondAngle = (seconds + milliseconds / 1000) * 6
@@ -596,7 +591,13 @@ export function TimezoneWidget({
                     <ChevronDown className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                   </span>
                   <span className="text-sm text-muted-foreground flex items-center justify-center gap-1.5">
-                    <span className="text-lg">{getCountryFlag(selectedTimezone.code)}</span>
+                    <img
+                      src={getFlagUrl(selectedTimezone.code, 40) || "/placeholder.svg"}
+                      alt={`${getTranslatedCountry(selectedTimezone.country)} flag`}
+                      width={20}
+                      height={15}
+                      className="h-[15px] w-5 rounded-[2px] object-cover shadow-sm"
+                    />
                     {getTranslatedCountry(selectedTimezone.country)}
                   </span>
                 </Button>
@@ -622,7 +623,13 @@ export function TimezoneWidget({
                               timezone === tz.value ? "opacity-100" : "opacity-0"
                             )}
                           />
-                          <span className="text-xs font-medium text-muted-foreground mr-2">{tz.code}</span>
+                          <img
+                            src={getFlagUrl(tz.code, 40) || "/placeholder.svg"}
+                            alt={`${tz.country} flag`}
+                            width={20}
+                            height={15}
+                            className="mr-2 h-[15px] w-5 rounded-[2px] object-cover shadow-sm"
+                          />
                           <span>{tz.city}</span>
                           <span className="ml-auto text-xs text-muted-foreground">{tz.country}</span>
                         </CommandItem>
